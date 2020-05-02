@@ -3,13 +3,6 @@ import pygame
 from bullet import Bullet
 
 
-# def fire_bullet(ai_settings, screen, ship):
-#     '''如果没有到达子弹限制，就发射一发子弹'''
-#     if len(bullets) < ai_settings.bullets_allowed:
-#         new_bullet = Bullet(ai_settings, screen, ship)
-#         bullets.add(new_bullet)
-
-
 def check_keydown_events(event, ai_settings, screen, ship):
     '''响应键盘按下事件'''
     if event.key == pygame.K_RIGHT:

@@ -1,4 +1,6 @@
 import pygame
+from pygame.sprite import Group
+from bullet import Bullet
 
 
 class Ship():
@@ -24,6 +26,11 @@ class Ship():
         self.moving_up = False
         self.moving_down = False
 
+        # 创建一个用于存储子弹的编组
+        self.bullets = Group()
+        # 子弹数量限制
+        self.bullets_allowed = ai_settings.bullets_allowed
+
     def blitme(self):
         '''在指定位置绘制飞船'''
         self.update()
@@ -47,3 +54,10 @@ class Ship():
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.bottom += self.ai_settings.ship_speed_factor
             self.rect.bottom = self.bottom
+
+    def fire(self):
+        '''发射子弹'''
+        # 如果没有到达子弹限制，就发射一发子弹
+        if len(self.bullets) < self.bullets_allowed:
+            new_bullet = Bullet(self.ai_settings, self.screen, self)
+            self.bullets.add(new_bullet)

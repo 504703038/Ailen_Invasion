@@ -4,6 +4,7 @@ import game_functions as gf
 from settings import Settings
 from ship import Ship
 from alien import Alien
+from pygame.sprite import Group
 
 
 def run_game():
@@ -19,15 +20,17 @@ def run_game():
     # 创建飞船
     ship = Ship(screen, ai_settings)
 
-    # 创建外星人
-    alien = Alien(ai_settings, screen)
+    # 创建一群外星人
+    aliens = Group()
+    gf.create_fleet(ai_settings, screen, aliens, ship)
+    # alien = Alien(ai_settings, screen)
 
     # 开始游戏主循环
     while True:
         # 监听键盘个鼠标时间
         gf.check_events(ai_settings, screen, ship)
         # 更新屏幕图像
-        gf.update_screen(ai_settings, screen, ship, alien)
+        gf.update_screen(ai_settings, screen, ship, aliens)
 
 
 if __name__ == "__main__":

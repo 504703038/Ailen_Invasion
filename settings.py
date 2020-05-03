@@ -14,8 +14,12 @@ class Settings():
         self.ship_speed_factor = 1.5
 
         # 子弹设置
-        self.bullet_speed_factor = 2
+        # 子弹的速度
+        self.bullet_speed_factor = 1.5
+        # 子弹大小
         self.bullet_width = 3
         self.bullet_height = 15
+        # 子弹的颜色
         self.bullet_color = (60, 60, 60)
+        # 最大子弹数量
         self.bullets_allowed = 5

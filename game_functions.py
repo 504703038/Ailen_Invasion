@@ -51,6 +51,22 @@ def check_events(ai_settings, screen, ship):
             check_keyup_events(event, ai_settings, screen, ship)
 
 
+def change_fleet_direction(ai_settings, aliens):
+    '''改变外星人运动方向并并下降10个像素点'''
+    for alien in aliens:
+        alien.y += ai_settings.alien_drop_speed
+        alien.rect.y = alien.y
+    ai_settings.alien_direction *= -1
+
+
+def check_fleet_edges(ai_settings, aliens):
+    '''当外星人到达游戏屏幕边缘时，改变外星人运动方向'''
+    for alien in aliens:
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+
 def draw_bullet(bullets):
     '''绘制子弹并删除已消失的子弹'''
     for bullet in bullets:
@@ -60,11 +76,11 @@ def draw_bullet(bullets):
             bullet.draw_bullet()
 
 
-def draw_aliens(aliens):
+def draw_aliens(ai_settings, aliens):
     '''绘制外星人军队'''
+    check_fleet_edges(ai_settings, aliens)
     for alien in aliens:
         alien.blitme()
-    # print(len(aliens))
 
 
 def get_number_aliens_col(ai_settings, alien_width):
@@ -76,7 +92,8 @@ def get_number_aliens_col(ai_settings, alien_width):
 
 def get_number_aliens_row(ai_settings, alien_height, ship_height):
     '''游戏屏幕计算可以容纳多少行外星人'''
-    available_space_row = ai_settings.screen_height - 3 * alien_height - ship_height
+    available_space_row = ai_settings.screen_height - \
+        3 * alien_height - ship_height
     number_aliens_row = int(available_space_row/(2*alien_height))
     return number_aliens_row
 
@@ -116,6 +133,6 @@ def update_screen(ai_settings, screen, ship, aliens):
     # 绘制飞船
     ship.blitme()
     # 绘制外星人
-    draw_aliens(aliens)
+    draw_aliens(ai_settings, aliens)
     # 绘制屏幕
     pygame.display.flip()

@@ -23,7 +23,6 @@ def run_game():
     # 创建一群外星人
     aliens = Group()
     gf.create_fleet(ai_settings, screen, aliens, ship)
-    # alien = Alien(ai_settings, screen)
 
     # 开始游戏主循环
     while True:

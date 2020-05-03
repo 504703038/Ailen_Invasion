@@ -4,6 +4,8 @@ from bullet import Bullet
 
 
 class Ship():
+    '''玩家飞船'''
+
     def __init__(self, screen, ai_settings):
         '''初始化飞船并设置初始位置'''
         self.screen = screen

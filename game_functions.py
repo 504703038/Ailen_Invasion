@@ -60,7 +60,7 @@ def draw_bullet(bullets):
     print(len(bullets))
 
 
-def update_screen(ai_settings, screen, ship):
+def update_screen(ai_settings, screen, ship, alien):
     '''更新屏幕图像'''
     # 填充背景颜色
     screen.fill(ai_settings.bg_color)
@@ -68,5 +68,7 @@ def update_screen(ai_settings, screen, ship):
     draw_bullet(ship.bullets)
     # 绘制飞船
     ship.blitme()
+    # 绘制外星人
+    alien.blitme()
     # 绘制屏幕
     pygame.display.flip()

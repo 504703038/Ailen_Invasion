@@ -3,7 +3,7 @@ from pygame.sprite import Sprite
 
 
 class Bullet(Sprite):
-    '''对飞船发的射子弹管理的类'''
+    '''飞船发的射子'''
 
     def __init__(self, ai_settings, screen, ship):
         super().__init__()

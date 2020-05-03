@@ -40,5 +40,5 @@ class Alien(Sprite):
 
     def blitme(self):
         '''在制定位置绘制外星人'''
-        self.update()
+        # self.update()
         self.screen.blit(self.image, self.rect)

@@ -5,6 +5,7 @@ from settings import Settings
 from ship import Ship
 from alien import Alien
 from pygame.sprite import Group
+from game_stats import GameStats
 
 
 def run_game():
@@ -17,19 +18,37 @@ def run_game():
     # 设置游戏窗口名称
     pygame.display.set_caption('Alien Invasion')
 
+    # 创建储存游戏信息的实例
+    stats = GameStats(ai_settings)
+
     # 创建飞船
     ship = Ship(screen, ai_settings)
 
-    # 创建一群外星人
+    # 创建外星人列表
     aliens = Group()
-    gf.create_fleet(ai_settings, screen, aliens, ship)
+
+    # 开启新一轮游戏
+    gf.new_round(ai_settings, screen, ship, aliens)
 
     # 开始游戏主循环
     while True:
         # 监听键盘个鼠标时间
         gf.check_events(ai_settings, screen, ship)
-        # 更新屏幕图像
-        gf.update_screen(ai_settings, screen, ship, aliens)
+        if stats.game_active:
+            # 更新游戏屏幕
+            gf.update_screen(ai_settings, screen, ship, aliens)
+
+            # 检查游戏状态
+            gf.check_game_status(ai_settings, stats, screen, ship, aliens)
+
+            # 如果击杀所有外星人则再添加一轮外星人
+            if len(aliens) == 0:
+                gf.next_round(ai_settings, screen, ship, aliens)
+        else:
+            break
+
+    # 游戏结束
+    print('Game over.')
 
 
 if __name__ == "__main__":

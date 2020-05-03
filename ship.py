@@ -16,11 +16,8 @@ class Ship():
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
 
-        # 将每艘飞船放在屏幕底部中央
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
-        self.centerx = float(self.rect.centerx)
-        self.bottom = float(self.rect.bottom)
+        # 将飞船放在屏幕底部中央
+        self.init_ship_position()
 
         # 移动标志
         self.moving_right = False
@@ -63,3 +60,10 @@ class Ship():
         if len(self.bullets) < self.bullets_allowed:
             new_bullet = Bullet(self.ai_settings, self.screen, self)
             self.bullets.add(new_bullet)
+
+    def init_ship_position(self):
+        # 将飞船放在屏幕底部中央
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
+        self.centerx = float(self.rect.centerx)
+        self.bottom = float(self.rect.bottom)

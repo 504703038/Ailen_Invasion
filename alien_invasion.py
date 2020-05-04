@@ -6,6 +6,7 @@ from ship import Ship
 from alien import Alien
 from pygame.sprite import Group
 from game_stats import GameStats
+from button import Button
 
 
 def run_game():
@@ -18,6 +19,9 @@ def run_game():
     # 设置游戏窗口名称
     pygame.display.set_caption('Alien Invasion')
 
+    # 创建游戏按钮
+    play_button = Button(ai_settings, screen, 'Play')
+
     # 创建储存游戏信息的实例
     stats = GameStats(ai_settings)
 
@@ -27,17 +31,15 @@ def run_game():
     # 创建外星人列表
     aliens = Group()
 
-    # 开启新一轮游戏
-    gf.new_round(ai_settings, screen, ship, aliens)
-
     # 开始游戏主循环
     while True:
-        # 监听键盘个鼠标时间
-        gf.check_events(ai_settings, screen, ship)
-        if stats.game_active:
-            # 更新游戏屏幕
-            gf.update_screen(ai_settings, screen, ship, aliens)
+        # 监听键盘和鼠标事件
+        gf.check_events(ai_settings, stats, screen, ship, aliens, play_button)
 
+        # 更新游戏屏幕
+        gf.update_screen(ai_settings, stats, screen, ship, aliens, play_button)
+
+        if stats.game_active:
             # 检查游戏状态
             gf.check_game_status(ai_settings, stats, screen, ship, aliens)
 
@@ -45,7 +47,7 @@ def run_game():
             if len(aliens) == 0:
                 gf.next_round(ai_settings, screen, ship, aliens)
         else:
-            break
+            pass
 
     # 游戏结束
     print('Game over.')

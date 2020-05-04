@@ -41,7 +41,21 @@ def check_keyup_events(event, ai_settings, screen, ship):
         ship.moving_down = False
 
 
-def check_events(ai_settings, screen, ship):
+def check_play_button(ai_settings, stats, screen, ship, aliens,
+                      play_button, mouse_x, mouse_y):
+    '''当玩家点击Play按钮时开始游戏'''
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        # 开始游戏
+        stats.game_active = True
+        # 隐藏鼠标
+        pygame.mouse.set_visible(False)
+        # 重置游戏状态
+        stats.reset_stats()
+        new_round(ai_settings, screen, ship, aliens)
+
+
+def check_events(ai_settings, stats, screen, ship, aliens, play_button):
     '''响应键盘和鼠标事件'''
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -50,6 +64,10 @@ def check_events(ai_settings, screen, ship):
             check_keydown_events(event, ai_settings, screen, ship)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ai_settings, screen, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(ai_settings, stats, screen, ship,
+                              aliens, play_button, mouse_x, mouse_y)
 
 
 def change_fleet_direction(ai_settings, aliens):
@@ -76,11 +94,14 @@ def ship_hit(ai_settings, stats, screen, ship, aliens):
         stats.ships_left -= 1
         # 重新开始这一轮游戏
         new_round(ai_settings, screen, ship, aliens)
-
-        # 暂停
-        sleep(0.5)
     else:
+        # 游戏结束
         stats.game_active = False
+        # 显示光标
+        pygame.mouse.set_visible(True)
+
+    # 暂停
+    sleep(0.5)
 
 
 def check_game_status(ai_settings, stats, screen, ship, aliens):
@@ -144,6 +165,8 @@ def new_round(ai_settings, screen, ship, aliens):
     # 清空外星人列表和子弹列表
     aliens.empty()
     ship.bullets.empty()
+    # 初始化游戏难度
+    # ai_settings.init_difficulty()
     # 初始化飞船位置
     ship.init_ship_position()
     # 创建一群外星人
@@ -151,14 +174,13 @@ def new_round(ai_settings, screen, ship, aliens):
 
 
 def next_round(ai_settings, screen, ship, aliens):
-    # 删除所有子弹
+    # 删除所有子弹和外星人
     ship.bullets.empty()
+    aliens.empty()
     # 重新加载一群外星人
     create_fleet(ai_settings, screen, ship, aliens)
-    # 加快外星人移动速度
-    ai_settings.alien_speed_factor += 0.5
-    # 加快子弹速度
-    ai_settings.bullet_speed_factor += 0.5
+    # 增加游戏难度
+    ai_settings.increase_difficulty()
 
 
 def draw_bullet(bullets, aliens):
@@ -184,15 +206,22 @@ def draw_aliens(ai_settings, aliens):
         alien.blitme()
 
 
-def update_screen(ai_settings, screen, ship, aliens):
+def update_screen(ai_settings, stats, screen, ship, aliens, play_button):
     '''更新屏幕图像'''
     # 填充背景颜色
     screen.fill(ai_settings.bg_color)
-    # 绘制子弹
-    draw_bullet(ship.bullets, aliens)
-    # 绘制飞船
-    ship.blitme()
-    # 绘制外星人
-    draw_aliens(ai_settings, aliens)
+
+    # 根据游戏状态绘制游戏屏幕
+    if not stats.game_active:
+        # 绘制Play按钮
+        play_button.draw_button()
+    else:
+        # 绘制子弹
+        draw_bullet(ship.bullets, aliens)
+        # 绘制飞船
+        ship.blitme()
+        # 绘制外星人
+        draw_aliens(ai_settings, aliens)
+
     # 绘制屏幕
     pygame.display.flip()

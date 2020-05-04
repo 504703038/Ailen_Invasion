@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Group
 from pygame.sprite import Sprite
-from bullet import Bullet
+from components import Bullet
 
 
 class Ship(Sprite):

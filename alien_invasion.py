@@ -7,6 +7,7 @@ from alien import Alien
 from pygame.sprite import Group
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 
 def run_game():
@@ -25,6 +26,9 @@ def run_game():
     # 创建储存游戏信息的实例
     stats = GameStats(ai_settings)
 
+    # 创建记分牌
+    score_bord = Scoreboard(ai_settings, stats, screen)
+
     # 创建飞船
     ship = Ship(screen, ai_settings)
 
@@ -37,7 +41,8 @@ def run_game():
         gf.check_events(ai_settings, stats, screen, ship, aliens, play_button)
 
         # 更新游戏屏幕
-        gf.update_screen(ai_settings, stats, screen, ship, aliens, play_button)
+        gf.update_screen(ai_settings, stats, screen, ship,
+                         aliens, play_button, score_bord)
 
         if stats.game_active:
             # 检查游戏状态

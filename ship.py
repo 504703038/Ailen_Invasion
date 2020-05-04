@@ -4,10 +4,10 @@ from bullet import Bullet
 
 
 class Ship():
-    '''玩家飞船'''
+    """ 玩家飞船 """
 
     def __init__(self, screen, ai_settings):
-        '''初始化飞船并设置初始位置'''
+        """ 初始化飞船并设置初始位置 """
         self.screen = screen
         self.ai_settings = ai_settings
 
@@ -31,12 +31,12 @@ class Ship():
         self.bullets_allowed = ai_settings.bullets_allowed
 
     def blitme(self):
-        '''在指定位置绘制飞船'''
+        """ 在指定位置绘制飞船 """
         self.update()
         self.screen.blit(self.image, self.rect)
 
     def update(self):
-        '''根据移动标志调整飞船的位置'''
+        """ 根据移动标志调整飞船的位置 """
         # 向右移动
         if self.moving_right and self.rect.right < self.screen_rect.right:
             self.centerx += self.ai_settings.ship_speed_factor
@@ -55,13 +55,14 @@ class Ship():
             self.rect.bottom = self.bottom
 
     def fire(self):
-        '''发射子弹'''
+        """ 发射子弹 """
         # 如果没有到达子弹限制，就发射一发子弹
         if len(self.bullets) < self.bullets_allowed:
             new_bullet = Bullet(self.ai_settings, self.screen, self)
             self.bullets.add(new_bullet)
 
     def init_ship_position(self):
+        """ 初始化飞船的位置 """
         # 将飞船放在屏幕底部中央
         self.rect.centerx = self.screen_rect.centerx
         self.rect.bottom = self.screen_rect.bottom

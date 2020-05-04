@@ -3,7 +3,7 @@ import pygame.font
 
 class Button(object):
     def __init__(self, ai_settings, screen, msg):
-        '''初始化按钮属性'''
+        """ 初始化按钮属性 """
         self.screen = screen
         self.screen_rect = screen.get_rect()
 
@@ -24,7 +24,7 @@ class Button(object):
         self.prep_msg(msg)
 
     def prep_msg(self, msg):
-        '''将msg渲染为图像，并使其在按钮上居中'''
+        """ 将msg渲染为图像，并使其在按钮上居中 """
         self.msg_image = self.font.render(
             msg, True, self.text_color, self.button_color)
         self.msg_image_ret = self.msg_image.get_rect()

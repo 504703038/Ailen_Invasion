@@ -191,6 +191,8 @@ def check_bullet_alien_collosion(ai_settings, stats, bullets, aliens):
     if collisions:
         for aliens in collisions.values():
             stats.score += ai_settings.alien_points * len(aliens)
+            if stats.score > stats.high_score:
+                stats.high_score = stats.score
 
 
 def draw_bullet(ai_settings, stats, bullets, aliens):

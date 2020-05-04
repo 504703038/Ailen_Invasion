@@ -1,13 +1,15 @@
 import pygame
 from pygame.sprite import Group
+from pygame.sprite import Sprite
 from bullet import Bullet
 
 
-class Ship():
+class Ship(Sprite):
     """ 玩家飞船 """
 
     def __init__(self, screen, ai_settings):
-        """ 初始化飞船并设置初始位置 """
+        """ 初始化飞船设置 """
+        super().__init__()
         self.screen = screen
         self.ai_settings = ai_settings
 

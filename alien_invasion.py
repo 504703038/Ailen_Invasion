@@ -50,7 +50,7 @@ def run_game():
 
             # 如果击杀所有外星人则再添加一轮外星人
             if len(aliens) == 0:
-                gf.next_round(ai_settings, screen, ship, aliens)
+                gf.next_round(ai_settings, stats, screen, ship, aliens)
         else:
             pass
 

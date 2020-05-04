@@ -174,13 +174,14 @@ def new_round(ai_settings, screen, ship, aliens):
     create_fleet(ai_settings, screen, ship, aliens)
 
 
-def next_round(ai_settings, screen, ship, aliens):
+def next_round(ai_settings, stats, screen, ship, aliens):
     # 删除所有子弹和外星人
     ship.bullets.empty()
     aliens.empty()
     # 重新加载一群外星人
     create_fleet(ai_settings, screen, ship, aliens)
     # 增加游戏难度
+    stats.level += 1
     ai_settings.increase_difficulty()
 
 
@@ -237,7 +238,7 @@ def update_screen(ai_settings, stats, screen, ship, aliens,
         # 绘制外星人
         draw_aliens(ai_settings, aliens)
         # 显示得分
-        score_bord.show_score()
+        score_bord.show_board()
 
     # 绘制屏幕
     pygame.display.flip()
